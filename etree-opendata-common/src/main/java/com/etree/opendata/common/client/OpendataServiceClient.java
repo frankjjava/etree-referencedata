@@ -10,9 +10,7 @@ package com.etree.opendata.common.client;
 import java.util.List;
 import java.util.Map;
 
-import com.etree.commons.core.BaseService;
-
-public interface OpendataServiceClient extends BaseService {
+public interface OpendataServiceClient {
 
 	public Object fetchData(Map<String, List<String>> criteria, String entitiesKeyName, String ... arrKeys);
 }

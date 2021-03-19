@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
-    <include file="${vdc.properties.dir}/opendata/logback-included.xml"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include file="${ETREE_HOME}/opendata/config/logback-included.xml"/>
 </configuration>

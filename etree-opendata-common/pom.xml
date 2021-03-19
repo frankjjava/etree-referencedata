@@ -27,7 +27,7 @@
 		
 		<dependency>
 			<groupId>com.etree</groupId>
-			<artifactId>etree-commons-genericdao</artifactId>
+			<artifactId>etree-commons-dao</artifactId>
 		</dependency>
 		
 	</dependencies>

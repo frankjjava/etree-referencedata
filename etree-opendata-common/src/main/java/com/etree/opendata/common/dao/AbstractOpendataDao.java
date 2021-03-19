@@ -1,17 +1,13 @@
 package com.etree.opendata.common.dao;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.etree.commons.dao.AbstractDaoImpl;
-import com.etree.opendata.common.OpendataConstants;
 
 public abstract class AbstractOpendataDao extends AbstractDaoImpl implements OpendataDao {
 	

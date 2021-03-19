@@ -5,7 +5,7 @@
  * @version 1.0
  * @since   2020-11-04 
  */
-package com.etree.opendata.core.biz.impl;
+package com.etree.opendata.web.biz.impl;
 
 import static com.etree.opendata.common.OpendataConstants.KEY_ENTITIES_NAME;
 import static com.etree.opendata.common.OpendataConstants.KEY_ENTITY_NAME;
@@ -18,28 +18,36 @@ import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.etree.opendata.common.OpendataConstants;
-import com.etree.opendata.common.biz.AbstractOpendataService;
+import com.etree.opendata.common.biz.OpendataService;
+import com.etree.opendata.common.dao.OpendataDao;
 import com.etree.opendata.common.dto.OpendataDto;
 import com.etree.opendata.common.exception.OpendataException;
+import com.etree.opendata.web.config.SchemaConfig;
 
-public class OpendataServiceImpl extends AbstractOpendataService {
+public class OpendataServiceImpl implements OpendataService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(OpendataServiceImpl.class);
+//	private static final Logger LOGGER = LoggerFactory.getLogger(OpendataServiceImpl.class);
+	
+	@Autowired
+	private SchemaConfig schemaConfig;
+
+	@Autowired
+	private OpendataDao opendataDao;
 
 	@Override
 	public String loadEntityInfo(OpendataDto opendataServiceDto) {
-		if (opendataServiceDto.getEntitiesKeyName() == null || !configParams.containsKey(opendataServiceDto.getEntitiesKeyName())) {
+		Map<String, Object> entities = schemaConfig.getEntities();
+		if (opendataServiceDto.getEntitiesKeyName() == null || !entities.containsKey(opendataServiceDto.getEntitiesKeyName())) {
 			throw new OpendataException("", "Error! Requested entity not available: " + opendataServiceDto.getEntitiesKeyName());
 		}
-		Map<String, Object> entityConfig = getUtilityConfig(opendataServiceDto.getEntitiesKeyName());
+		Map<String, Object> entityConfig = getEntityConfig(opendataServiceDto.getEntitiesKeyName());
 		if (entityConfig == null) {
 			throw new OpendataException("", "Error! Unavailable or unconfigured entity!");
 		}
-	    opendataServiceDto.setEntityName(entityConfig.get(KEY_ENTITY_NAME));
+	    opendataServiceDto.setEntityName((String) entityConfig.get(KEY_ENTITY_NAME));
 		List<String> keys = opendataServiceDto.getKeys();
 		List<String> newKeys = null;
 		Map<String, String> propInfo = (Map) entityConfig.get(OpendataConstants.PROP_INFO);
@@ -70,11 +78,11 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 				}
 			}
 		}
-		Map<String,List<String>> criteria = opendataServiceDto.getCriteria();
+		Map<String, String[]> criteria = opendataServiceDto.getCriteria();
 		if (propInfo != null) {
-			Map<String,List<String>> newCriteria = new HashMap<>();
+			Map<String, String[]> newCriteria = new HashMap<>();
 			opendataServiceDto.setCriteria(newCriteria);
-			for (Entry<String, List<String>> entry : criteria.entrySet()) {
+			for (Entry<String, String[]> entry : criteria.entrySet()) {
 				String key = entry.getKey();
 				String propInfoKey = key.toLowerCase();
 				if (propInfo.containsKey(propInfoKey)) {
@@ -92,8 +100,9 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 	@Override
 	public JSONArray loadAvailableEntities() {
 //		JSONObject entityJson = new JSONObject();
+		Map<String, Object> entities = schemaConfig.getEntities();
 		JSONArray jsonArray = new JSONArray();
-		for (Entry<Object, Object> mapEntry : configParams.entrySet()) {
+		for (Entry<String, Object> mapEntry : entities.entrySet()) {
 			JSONObject jsonObject = new JSONObject();
 			Map<String, Object> props = (Map<String,Object>) mapEntry.getValue();
 			int idx = 0;
@@ -113,7 +122,8 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 
 	@Override
 	public JSONArray loadEntityInfo(String entity) {
-		Map<String, Object>  props = (Map<String, Object>) configParams.get(entity);
+		Map<String, Object> entities = schemaConfig.getEntities();
+		Map<String, Object>  props = (Map<String, Object>) entities.get(entity);
 		JSONArray jsonArray = null;
 		if (props != null) {
 			JSONObject jsonObject = new JSONObject();
@@ -132,4 +142,11 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 		}
 		return jsonArray;
 	}
+	
+	private Map<String, Object> getEntityConfig(String keyName) {
+		Map<String, Object> entities = schemaConfig.getEntities();
+		Map<String, Object> prop = (Map) entities.get(keyName.toLowerCase());
+		return prop;
+	}
+
 }

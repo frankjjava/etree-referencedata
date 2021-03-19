@@ -64,7 +64,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.etree</groupId>
-				<artifactId>etree-commons-genericdao</artifactId>
+				<artifactId>etree-commons-dao</artifactId>
 				<version>${etree-commons.version}</version>
 			</dependency>
 			<dependency>
@@ -88,8 +88,6 @@
 
 	<modules>
 		<module>etree-opendata-common</module>
-		<module>etree-opendata-client</module>
-		<module>etree-opendata-core</module>
 		<module>etree-opendata-web</module>
 	</modules>
 </project>

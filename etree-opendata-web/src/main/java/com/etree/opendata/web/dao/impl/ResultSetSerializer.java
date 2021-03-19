@@ -1,4 +1,4 @@
-package com.etree.opendata.core.dao.impl;
+package com.etree.opendata.web.dao.impl;
 
 import java.io.IOException;
 import java.sql.Blob;

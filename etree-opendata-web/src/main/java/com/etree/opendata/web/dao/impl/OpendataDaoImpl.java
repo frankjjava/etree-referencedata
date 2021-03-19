@@ -5,7 +5,7 @@
  * @version 1.0
  * @since   2020-11-04 
  */
-package com.etree.opendata.core.dao.impl;
+package com.etree.opendata.web.dao.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -86,7 +86,7 @@ public class OpendataDaoImpl extends AbstractOpendataDao {
 		if (opendataDto.getCriteria() != null && !opendataDto.getCriteria().isEmpty()) {
 			sql.append(" where ");
 			StringBuilder whereClause = null;
-			for (Entry<String, List<String>> entry : opendataDto.getCriteria().entrySet()) {
+			for (Entry<String, String[]> entry : opendataDto.getCriteria().entrySet()) {
 				if (whereClause == null) {
 					whereClause = new StringBuilder();
 				} else {
@@ -105,7 +105,7 @@ public class OpendataDaoImpl extends AbstractOpendataDao {
 		return sql.toString();
 	}
 
-	private String buildLikeClause(Map<String, Object> entityConfig, String columnName, List<String> values) {
+	private String buildLikeClause(Map<String, Object> entityConfig, String columnName, String[] values) {
 		StringBuilder key = null;
 		String likeClause = null;
 		if (!entityConfig.containsKey(OpendataConstants.DAO_INFO)) {

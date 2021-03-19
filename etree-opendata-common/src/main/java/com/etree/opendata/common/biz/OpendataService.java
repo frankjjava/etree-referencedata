@@ -26,4 +26,5 @@ public interface OpendataService {
 	 * @return information of that specific entity
 	 */
 	JSONArray loadEntityInfo(String entity);
+
 }
