@@ -22,6 +22,7 @@
 		<etree-referencedata.version>1.0</etree-referencedata.version>
 		<json-org.version>20200518</json-org.version>
 		<junit.version>4.13.1</junit.version>
+		<cxf.version>3.1.6</cxf.version>
 	</properties>
 
 	<dependencyManagement>
@@ -47,10 +48,6 @@
 						<groupId>com.sun.xml.bind</groupId>
 						<artifactId>jaxb-impl</artifactId>
 					</exclusion>
-					<exclusion>
-						<groupId>org.apache.cxf</groupId>
-						<artifactId>cxf-core</artifactId>
-					</exclusion>
 
 					<exclusion>
 						<groupId>commons-configuration</groupId>
@@ -61,6 +58,11 @@
 						<artifactId>commons-lang3</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-core</artifactId>
+				<version>${cxf.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.etree</groupId>
