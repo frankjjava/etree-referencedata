@@ -12,14 +12,14 @@
 	</parent>
 
 	<groupId>com.etree</groupId>
-	<artifactId>etree-opendata</artifactId>
+	<artifactId>etree-referencedata</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<etree-commons.version>1.0</etree-commons.version>
-		<etree-opendata.version>1.0</etree-opendata.version>
+		<etree-referencedata.version>1.0</etree-referencedata.version>
 		<json-org.version>20200518</json-org.version>
 		<junit.version>4.13.1</junit.version>
 	</properties>
@@ -69,25 +69,15 @@
 			</dependency>
 			<dependency>
 				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-common</artifactId>
-				<version>${etree-opendata.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-core</artifactId>
-				<version>${etree-opendata.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-client</artifactId>
-				<version>${etree-opendata.version}</version>
+				<artifactId>etree-referencedata-common</artifactId>
+				<version>${etree-referencedata.version}</version>
 			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
-		<module>etree-opendata-common</module>
-		<module>etree-opendata-web</module>
+		<module>etree-referencedata-common</module>
+		<module>etree-referencedata-web</module>
 	</modules>
 </project>
