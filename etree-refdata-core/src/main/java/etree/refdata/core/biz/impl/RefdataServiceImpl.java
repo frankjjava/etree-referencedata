@@ -1,10 +1,25 @@
 /**
- * Copyright © 2020 eTree Technologies Pvt. Ltd.
- *
- * @author  Franklin Joshua
- * @version 1.0
- * @since   2020-11-04 
- */
+* Copyright (c) eTree Technologies
+*
+* @author  Franklin Abel
+* @version 1.0
+* @since   2020-06-08 
+*
+* This file is part of the etree-ref-data.
+* 
+*  The OTC framework is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, version 3 of the License.
+*
+*  The OTC framework is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  A copy of the GNU General Public License is made available as 'License.md' file, 
+*  along with OTC framework project.  If not, see <https://www.gnu.org/licenses/>.
+*
+*/
 package etree.refdata.core.biz.impl;
 
 import static etree.refdata.common.RefdataConstants.KEY_ENTITIES_NAME;
@@ -18,8 +33,6 @@ import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import etree.refdata.common.RefdataConstants;
 import etree.refdata.common.biz.AbstractRefdataService;
@@ -27,19 +40,20 @@ import etree.refdata.common.dto.OpendataDto;
 import etree.refdata.common.exception.RefdataException;
 
 public class RefdataServiceImpl extends AbstractRefdataService {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(RefdataServiceImpl.class);
+
 
 	@Override
 	public String loadEntityInfo(OpendataDto opendataServiceDto) {
-		if (opendataServiceDto.getEntitiesKeyName() == null || !configParams.containsKey(opendataServiceDto.getEntitiesKeyName())) {
-			throw new RefdataException("", "Error! Requested entity not available: " + opendataServiceDto.getEntitiesKeyName());
+		if (opendataServiceDto.getEntitiesKeyName() == null
+				|| !configParams.containsKey(opendataServiceDto.getEntitiesKeyName())) {
+			throw new RefdataException("",
+					"Error! Requested entity not available: " + opendataServiceDto.getEntitiesKeyName());
 		}
 		Map<String, Object> entityConfig = getUtilityConfig(opendataServiceDto.getEntitiesKeyName());
 		if (entityConfig == null) {
 			throw new RefdataException("", "Error! Unavailable or unconfigured entity!");
 		}
-	    opendataServiceDto.setEntityName(entityConfig.get(KEY_ENTITY_NAME));
+		opendataServiceDto.setEntityName(entityConfig.get(KEY_ENTITY_NAME));
 		List<String> keys = opendataServiceDto.getKeys();
 		List<String> newKeys = null;
 		Map<String, String> propInfo = (Map) entityConfig.get(RefdataConstants.PROP_INFO);
@@ -70,9 +84,9 @@ public class RefdataServiceImpl extends AbstractRefdataService {
 				}
 			}
 		}
-		Map<String,List<String>> criteria = opendataServiceDto.getCriteria();
+		Map<String, List<String>> criteria = opendataServiceDto.getCriteria();
 		if (propInfo != null) {
-			Map<String,List<String>> newCriteria = new HashMap<>();
+			Map<String, List<String>> newCriteria = new HashMap<>();
 			opendataServiceDto.setCriteria(newCriteria);
 			for (Entry<String, List<String>> entry : criteria.entrySet()) {
 				String key = entry.getKey();
@@ -82,7 +96,7 @@ public class RefdataServiceImpl extends AbstractRefdataService {
 				} else {
 					newCriteria.put(key, entry.getValue());
 				}
-			}		
+			}
 		}
 //		JSONArray jsonArray = opendataDao.retrieveAsJSONArray(opendataServiceDto, entityConfig);
 		String jsonString = opendataDao.retrieveAsJsonString(opendataServiceDto, entityConfig);
@@ -95,7 +109,7 @@ public class RefdataServiceImpl extends AbstractRefdataService {
 		JSONArray jsonArray = new JSONArray();
 		for (Entry<Object, Object> mapEntry : configParams.entrySet()) {
 			JSONObject jsonObject = new JSONObject();
-			Map<String, Object> props = (Map<String,Object>) mapEntry.getValue();
+			Map<String, Object> props = (Map<String, Object>) mapEntry.getValue();
 			int idx = 0;
 			for (Entry<String, Object> entry : props.entrySet()) {
 				String key = (String) entry.getKey();
@@ -113,7 +127,7 @@ public class RefdataServiceImpl extends AbstractRefdataService {
 
 	@Override
 	public JSONArray loadEntityInfo(String entity) {
-		Map<String, Object>  props = (Map<String, Object>) configParams.get(entity);
+		Map<String, Object> props = (Map<String, Object>) configParams.get(entity);
 		JSONArray jsonArray = null;
 		if (props != null) {
 			JSONObject jsonObject = new JSONObject();
